@@ -8,7 +8,7 @@ from conans import ConanFile, tools, AutoToolsBuildEnvironment
 class Libxml2Conan(ConanFile):
     name = "libxml2"
     version = "2.9.9"
-    url = "https://github.com/bincrafters/conan-libxml2"
+    url = "https://github.com/qtwebkit/conan-libxml2"
     description = "libxml2 is a software library for parsing XML documents"
     author = "Bincrafters <bincrafters@gmail.com>"
     topics = "XML", "parser", "validation"
@@ -39,7 +39,7 @@ class Libxml2Conan(ConanFile):
         if self.options.iconv:
             self.requires("libiconv/1.15@bincrafters/stable")
         if self.options.icu:
-            self.requires("icu/63.1@bincrafters/stable")
+            self.requires("icu/63.2@qtproject/stable")
 
     @property
     def _is_msvc(self):
@@ -85,7 +85,19 @@ class Libxml2Conan(ConanFile):
                         "debug=%s" % debug,
                         "static=%s" % static,
                         'include="%s"' % ";".join(self.deps_cpp_info.include_paths),
-                        'lib="%s"' % ";".join(self.deps_cpp_info.lib_paths)]
+                        'lib="%s"' % ";".join(self.deps_cpp_info.lib_paths),
+                        'python=no',
+                        'valid=no',
+                        'xinclude=no',
+                        'xptr=no',
+                        'c14n=no',
+                        'catalog=no',
+                        'regexps=no',
+                        'schemas=no',
+                        'schematron=no',
+                        'legacy=no',
+                        'ftp=no',
+                        'http=no']
                 configure_command = ' '.join(args)
                 self.output.info(configure_command)
                 self.run(configure_command)
@@ -131,6 +143,18 @@ class Libxml2Conan(ConanFile):
         configure_args.extend(['--with-lzma' if self.options.lzma else '--without-lzma'])
         configure_args.extend(['--with-iconv' if self.options.iconv else '--without-iconv'])
         configure_args.extend(['--with-icu' if self.options.icu else '--without-icu'])
+        configure_args.extend([
+            '--without-valid',
+            '--without-xinclude',
+            '--without-xptr',
+            '--without-c14n',
+            '--without-catalog',
+            '--without-regexps',
+            '--without-schemas',
+            '--without-schematron',
+            '--without-legacy',
+            '--without-ftp',
+            '--without-http'])
 
         # Disable --build when building for iPhoneSimulator. The configure script halts on
         # not knowing if it should cross-compile.
