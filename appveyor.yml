@@ -8,7 +8,7 @@ environment:
     CONAN_CHANNEL: "stable"
     CONAN_UPLOAD: "https://api.bintray.com/conan/qtproject/conan"
     CONAN_REMOTES: "https://api.bintray.com/conan/qtproject/conan"
-    CONAN_OPTIONS: "libxml2:shared=True,libxml2:iconv=False,libxml2:icu=True"
+    CONAN_OPTIONS: "libxml2:iconv=False,libxml2:icu=True"
 
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
