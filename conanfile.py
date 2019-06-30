@@ -194,6 +194,8 @@ class Libxml2Conan(ConanFile):
         else:
             self.cpp_info.libs = ['xml2']
         self.cpp_info.includedirs = [os.path.join("include", "libxml2")]
+        if self.options.icu:
+            self.cpp_info.includedirs.extend(self.deps_cpp_info["icu"].includedirs)
         #if not self.options.shared:
         #    self.cpp_info.defines = ["LIBXML_STATIC"]
         if self.settings.os == "Linux" or self.settings.os == "Macos":
