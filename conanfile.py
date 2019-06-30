@@ -39,7 +39,7 @@ class Libxml2Conan(ConanFile):
         if self.options.iconv:
             self.requires("libiconv/1.15@bincrafters/stable")
         if self.options.icu:
-            self.requires("icu/63.2@qtproject/stable")
+            self.requires("icu/64.2@qtproject/stable")
 
     @property
     def _is_msvc(self):
