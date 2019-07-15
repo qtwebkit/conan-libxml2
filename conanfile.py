@@ -15,13 +15,13 @@ class Libxml2Conan(ConanFile):
     homepage = "https://xmlsoft.org"
     license = "MIT"
     settings = "os", "arch", "compiler", "build_type"
-    options = {#"shared": [True, False],
+    options = {"shared": [True, False],
                "fPIC": [True, False],
                "zlib": [True, False],
                "lzma": [True, False],
                "iconv": [True, False],
                "icu": [True, False]}
-    default_options = {#'shared': False,
+    default_options = {'shared': False,
                        'fPIC': True,
                        "iconv": True,
                        "zlib": True,
@@ -70,7 +70,7 @@ class Libxml2Conan(ConanFile):
     def _build_windows(self):
         with tools.chdir(os.path.join(self._full_source_subfolder, 'win32')):
             debug = "yes" if self.settings.build_type == "Debug" else "no"
-            static = "no" # if self.options.shared else "yes"
+            static = "no" if self.options.shared else "yes"
 
             with tools.vcvars(self.settings):
                 args = ["cscript",
@@ -136,7 +136,7 @@ class Libxml2Conan(ConanFile):
         configure_args = ['--with-python=no', '--prefix=%s' % full_install_subfolder]
         if env_build.fpic:
             configure_args.extend(['--with-pic'])
-        if True: # self.options.shared:
+        if self.options.shared:
             configure_args.extend(['--enable-shared', '--disable-static'])
         else:
             configure_args.extend(['--enable-static', '--disable-shared'])
@@ -182,21 +182,19 @@ class Libxml2Conan(ConanFile):
             # remove redundant libraries to avoid confusion
             os.unlink(os.path.join(self.package_folder, 'lib', 'libxml2_a_dll.lib'))
             os.unlink(os.path.join(self.package_folder, 'lib',
-                                   'libxml2_a.lib'))
-                                   #'libxml2_a.lib' if self.options.shared else 'libxml2.lib'))
+                                   'libxml2_a.lib' if self.options.shared else 'libxml2.lib'))
         la = os.path.join(self.package_folder, 'lib', 'libxml2.la')
         if os.path.isfile(la):
             os.unlink(la)
 
     def package_info(self):
         if self._is_msvc:
-            # self.cpp_info.libs = ['libxml2' if self.options.shared else 'libxml2_a']
-            self.cpp_info.libs = ['libxml2']
+            self.cpp_info.libs = ['libxml2' if self.options.shared else 'libxml2_a']
         else:
             self.cpp_info.libs = ['xml2']
         self.cpp_info.includedirs = [os.path.join("include", "libxml2")]
-        #if not self.options.shared:
-        #    self.cpp_info.defines = ["LIBXML_STATIC"]
+        if not self.options.shared:
+            self.cpp_info.defines = ["LIBXML_STATIC"]
         if self.settings.os == "Linux" or self.settings.os == "Macos":
             self.cpp_info.libs.append('m')
         if self.settings.os == "Windows":
