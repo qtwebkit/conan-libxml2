@@ -118,6 +118,9 @@ class Libxml2Conan(ConanFile):
             self.run("nmake /f Makefile.msvc install")
 
     def _build_mingw(self):
+        def fix_paths(paths):
+            return [path.replace("\\", "/") for path in paths]
+
         with tools.chdir(os.path.join(self._source_subfolder, 'win32')):
             debug = "yes" if self.settings.build_type == "Debug" else "no"
             static = "no" if self.options.shared else "yes"
@@ -132,11 +135,23 @@ class Libxml2Conan(ConanFile):
                     "prefix=%s" % self.package_folder,
                     "debug=%s" % debug,
                     "static=%s" % static,
-                    'include="%s"' % " -I".join(self.deps_cpp_info.include_paths),
-                    'lib="%s"' % " -L".join(self.deps_cpp_info.lib_paths)]
+                    'include="%s"' % " -I".join(fix_paths(self.deps_cpp_info.include_paths)),
+                    'lib="%s"' % " -L".join(fix_paths(self.deps_cpp_info.lib_paths))]
             configure_command = ' '.join(args)
             self.output.info(configure_command)
             self.run(configure_command)
+
+            # Fix library names because they can be not just zlib.lib
+            def fix_library(option, package):
+                if option:
+                    libs = []
+                    for lib in self.deps_cpp_info[package].libs:
+                        libs.append("-l%s" % lib)
+                    tools.replace_in_file("Makefile.mingw",
+                                          "LIBS += $(LIB)",
+                                          "LIBS += $(LIB) %s" % ' '.join(libs))
+
+            fix_library(self.options.icu, 'icu')
 
             self.run("mingw32-make -f Makefile.mingw")
 
