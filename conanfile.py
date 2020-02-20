@@ -6,7 +6,7 @@ import os
 
 class Libxml2Conan(ConanFile):
     name = "libxml2"
-    version = "2.9.9"
+    version = "2.9.10"
     url = "https://github.com/qtwebkit/conan-libxml2"
     description = "libxml2 is a software library for parsing XML documents"
     author = "Bincrafters <bincrafters@gmail.com>"
@@ -52,7 +52,7 @@ class Libxml2Conan(ConanFile):
 
     def source(self):
         tools.get("http://xmlsoft.org/sources/libxml2-{0}.tar.gz".format(self.version),
-                  sha256="94fb70890143e3c6549f265cee93ec064c80a84c42ad0f23e85ee1fd6540a871")
+                  sha256="aafee193ffb8fe0c82d4afef6ef91972cbaf5feea100edc2f262750611b4be1f")
         os.rename("libxml2-{0}".format(self.version), self._source_subfolder)
 
     def config_options(self):
