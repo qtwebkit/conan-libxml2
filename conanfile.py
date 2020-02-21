@@ -46,10 +46,6 @@ class Libxml2Conan(ConanFile):
     def _is_msvc(self):
         return self.settings.compiler == 'Visual Studio'
 
-    @property
-    def _is_mingw(self):
-        return self.settings.compiler == 'gcc' and self.settings.os == 'Windows'
-
     def source(self):
         tools.get("http://xmlsoft.org/sources/libxml2-{0}.tar.gz".format(self.version),
                   sha256="aafee193ffb8fe0c82d4afef6ef91972cbaf5feea100edc2f262750611b4be1f")
@@ -208,8 +204,6 @@ class Libxml2Conan(ConanFile):
         self._patch_sources()
         if self._is_msvc:
             self._build_msvc()
-        elif self._is_mingw:
-            self._build_mingw()
         else:
             autotools = self._configure_autotools()
             autotools.make()
@@ -220,8 +214,6 @@ class Libxml2Conan(ConanFile):
                   keep_path=False)
         if self._is_msvc:
             self._package_msvc()
-        elif self._is_mingw:
-            self._package_mingw()
         else:
             autotools = self._configure_autotools()
             autotools.install()
@@ -244,14 +236,6 @@ class Libxml2Conan(ConanFile):
             pdb_files = glob.glob(os.path.join(self.package_folder, 'bin', '*.pdb'), recursive=True)
             for pdb in pdb_files:
                 os.unlink(pdb)
-        elif self._is_mingw:
-            if self.options.shared:
-                os.unlink(os.path.join(self.package_folder, "lib", "libxml2.a"))
-                os.rename(os.path.join(self.package_folder, "lib", "libxml2.lib"),
-                          os.path.join(self.package_folder, "lib", "libxml2.a"))
-            else:
-                os.unlink(os.path.join(self.package_folder, "bin", "libxml2.dll"))
-                os.unlink(os.path.join(self.package_folder, "lib", "libxml2.lib"))
 
         tools.rmdir(os.path.join(self.package_folder, 'share'))
         tools.rmdir(os.path.join(self.package_folder, 'lib', 'cmake'))
