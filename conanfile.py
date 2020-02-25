@@ -77,6 +77,18 @@ class Libxml2Conan(ConanFile):
                     "lzma=%d" % (1 if self.options.lzma else 0),
                     "iconv=%d" % (1 if self.options.iconv else 0),
                     "icu=%d" % (1 if self.options.icu else 0),
+                    "python=no",
+                    "valid=no",
+                    "xinclude=no",
+                    "xptr=no",
+                    "c14n=no",
+                    "catalog=no",
+                    "regexps=no",
+                    "schemas=no",
+                    "schematron=no",
+                    "legacy=no",
+                    "ftp=no",
+                    "http=no",
                     "compiler=msvc",
                     "prefix=%s" % self.package_folder,
                     "cruntime=/%s" % self.settings.compiler.runtime,
@@ -127,6 +139,18 @@ class Libxml2Conan(ConanFile):
                     "lzma=%d" % (1 if self.options.lzma else 0),
                     "iconv=%d" % (1 if self.options.iconv else 0),
                     "icu=%d" % (1 if self.options.icu else 0),
+                    "python=no",
+                    "valid=no",
+                    "xinclude=no",
+                    "xptr=no",
+                    "c14n=no",
+                    "catalog=no",
+                    "regexps=no",
+                    "schemas=no",
+                    "schematron=no",
+                    "legacy=no",
+                    "ftp=no",
+                    "http=no",
                     "compiler=mingw",
                     "prefix=%s" % self.package_folder,
                     "debug=%s" % debug,
@@ -179,6 +203,18 @@ class Libxml2Conan(ConanFile):
         configure_args.extend(['--with-lzma' if self.options.lzma else '--without-lzma'])
         configure_args.extend(['--with-iconv' if self.options.iconv else '--without-iconv'])
         configure_args.extend(['--with-icu' if self.options.icu else '--without-icu'])
+        configure_args.extend([
+            '--without-valid',
+            '--without-xinclude',
+            '--without-xptr',
+            '--without-c14n',
+            '--without-catalog',
+            '--without-regexps',
+            '--without-schemas',
+            '--without-schematron',
+            '--without-legacy',
+            '--without-ftp',
+            '--without-http'])
 
         # Disable --build when building for iPhoneSimulator. The configure script halts on
         # not knowing if it should cross-compile.
