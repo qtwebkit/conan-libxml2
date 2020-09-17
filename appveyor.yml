@@ -25,6 +25,7 @@ environment:
         - MINGW_CONFIGURATIONS: '8@x86@dwarf2@posix, 8@x86_64@seh@posix'
           CONAN_BUILD_REQUIRES: 'msys2_installer/latest@bincrafters/stable'
           CONAN_BUILD_TYPES: Release
+          V: 1
 
 install:
   - set PATH=%PYTHON_HOME%;%PYTHON_HOME%/Scripts/;%PATH%
