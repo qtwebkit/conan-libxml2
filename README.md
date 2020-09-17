@@ -1,68 +1,26 @@
-[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/qtwebkit/conan-libxml2?branch=stable%2F2.9.9&svg=true)](https://ci.appveyor.com/project/annulen/conan-libxml2)
 
-## Conan package recipe for [*libxml2*](https://xmlsoft.org)
+## Package Status
 
-libxml2 is a software library for parsing XML documents
+AppVeyor | GitHub Actions | Bintray
+-------- | -------------- | -------
+[![AppVeyor Status](https://ci.appveyor.com/api/projects/status/github/qtwebkit/conan-libxml2?svg=true)](https://ci.appveyor.com/project/annulen/conan-libxml2) | [![GitHub Actions Status](https://github.com/qtwebkit/conan-libxml2/workflows/conan/badge.svg)](https://github.com/qtwebkit/conan-libxml2/actions) | [![Bintray](https://api.bintray.com/packages/qtproject/conan/libxml2%3Aqtproject/images/download.svg)](https://bintray.com/qtproject/conan/libxml2%3Aqtproject/_latestVersion)
 
-The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/bincrafters/public-conan/libxml2%3Abincrafters).
+## General Information
 
+This repository is used to build recipe from [conan-center-index](https://github.com/conan-io/conan-center-index/tree/master/recipes/libxml2)
+with options and compilers required by QtWebKit project. It contains only CI build
+instructions and patches to original recipe which might be occasionally required.
 
-## Issues
+Any issues related to building QtWebKit should be submitted to
+[QtWebKit issue tracker](https://github.com/qtwebkit/qtwebkit/issues).
+All feedback on this recipe which is not related to QtWebKit build issues should be
+submitted to [upstream issue tracker](https://github.com/conan-io/conan-center-index/issues).
 
-If you wish to report an issue or make a request for a package, please do so here:
+## Conan Information
 
-[Issues Tracker](https://github.com/bincrafters/community/issues)
-
-
-## For Users
-
-### Basic setup
-
-    $ conan install libxml2/2.9.9@bincrafters/stable
-
-### Project setup
-
-If you handle multiple dependencies in your project is better to add a *conanfile.txt*
-
-    [requires]
-    libxml2/2.9.9@bincrafters/stable
-
-    [generators]
-    txt
-
-Complete the installation of requirements for your project running:
-
-    $ mkdir build && cd build && conan install ..
-
-Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
+Conan packages can be found in our [Bintray repository](https://bintray.com/qtproject/conan).
+Primary intent of these packages is to support building QtWebKit on various platforms.
+While it's possible that you can find these packages useful for different purposes,
+build options and set of platforms and compilers may be changed in future without notice.
 
 
-## Build and package
-
-The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from "build_requires" and "requires" , and then running the build() method.
-
-    $ conan create . bincrafters/stable
-
-
-### Available Options
-| Option        | Default | Possible Values  |
-| ------------- |:----------------- |:------------:|
-| shared      | False |  [True, False] |
-| fPIC      | True |  [True, False] |
-| zlib      | True |  [True, False] |
-| lzma      | False |  [True, False] |
-| iconv      | True |  [True, False] |
-| icu      | False |  [True, False] |
-
-
-## Add Remote
-
-    $ conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
-
-
-## Conan Recipe License
-
-NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package libxml2.
-It does *not* in any way apply or is related to the actual software being packaged.
-
-[MIT](https://github.com/bincrafters/conan-libxml2/blob/stable/2.9.9/LICENSE.md)
